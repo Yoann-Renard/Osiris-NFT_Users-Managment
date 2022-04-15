@@ -27,6 +27,28 @@ pub struct Auth {
     pub token: String,
 }
 
+    
+    //_________________________________________________________________________//
+    //config par default du hasher 
+
+
+    // backend: Backend::C
+    // cpu_pool: A CpuPool ...
+    //     with threads equal to the number of logical cores on your machine
+    //     that is lazily created, i.e. created only if / when you call the methods that need it (hash_non_blocking or hash_raw_non_blocking)
+    // hash_len: 32 bytes
+    // iterations: 192
+    // lanes: The number of logical cores on your machine
+    // memory_size: 4096 kibibytes
+    // opt_out_of_secret_key: false
+    // password_clearing: false
+    // salt: random Salt of length 32 bytes that renews with every hash
+    // secret_key_clearing: false
+    // threads: The number of logical cores on your machine
+    // variant: Variant::Argon2id
+    // version: Version::_0x13
+
+
 impl CryptoService {
     #[instrument(skip(self,password))]
     pub async fn hash_password(&self, password : String) -> Result<String> {

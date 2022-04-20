@@ -134,5 +134,5 @@ pub async fn suppr_account(user: AuthenticatedUser,repository: UserRepository) -
 pub async fn get_your_name(user:AuthenticatedUser, repository : UserRepository) -> impl Responder{
     let full_name_searched = repository.find_full_name_by_id(user.0).await;
 
-    HttpResponse::Ok().json(full_name_searched.unwrap())
+    HttpResponse::Ok().header("Access-Control-Request-Methods","*").header("Access-Control-Allow-Origin","*").json(full_name_searched.unwrap())
 }

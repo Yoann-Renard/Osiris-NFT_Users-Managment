@@ -53,6 +53,9 @@ pub async fn create_user(user : Form<NewUser>, repository: UserRepository, crypt
                         (Some(db::UNIQUE_VIOLATION_CODE), Some("email")) => {
                                     AppError::INVALID_INPUT.message("Email address already exists.".to_string())},
 
+                        (Some(db::UNIQUE_VIOLATION_CODE), Some("full_name")) => {
+                                        AppError::INVALID_INPUT.message("full_name/pseudo address already exists.".to_string())},
+    
 
                         (Some(db::UNIQUE_VIOLATION_CODE), Some("username")) => {
                                     AppError::INVALID_INPUT.message("Username already exists.".to_string())},
@@ -95,29 +98,29 @@ pub async fn update_profile( user : AuthenticatedUser, repository : UserReposito
 }
 
 
-#[instrument[skip(repository)]]
-pub async fn me(user: AuthenticatedUser, repository: UserRepository) -> AppResponse {
-    println!("from me: {:?} \n", user);
-    let user = repository
-        .find_by_id(user.0)
-        .await?
-        .ok_or(AppError::INTERNAL_ERROR)?;
+// #[instrument[skip(repository)]]
+// pub async fn me(user: AuthenticatedUser, repository: UserRepository) -> AppResponse {
+//     println!("from me: {:?} \n", user);
+//     let user = repository
+//         .find_by_id(user.0)
+//         .await?
+//         .ok_or(AppError::INTERNAL_ERROR)?;
 
-    Ok(HttpResponse::Ok().header("Access-Control-Allow-Methods","*").header("Access-Control-Allow-Origin","*").json(user))
-}
+//     Ok(HttpResponse::Ok().header("Access-Control-Allow-Methods","*").header("Access-Control-Allow-Origin","*").json(user))
+// }
 
-#[instrument[skip(repository)]]
-pub async fn get_users(user: AuthenticatedUser,repository: UserRepository) -> AppResponse {
-    // let user = repository
-    //     .get_all_users()
-    //     .await?
-    //     .ok_or(AppError::INTERNAL_ERROR)?;
+// #[instrument[skip(repository)]]
+// pub async fn get_users(user: AuthenticatedUser,repository: UserRepository) -> AppResponse {
+//     // let user = repository
+//     //     .get_all_users()
+//     //     .await?
+//     //     .ok_or(AppError::INTERNAL_ERROR)?;
 
-    // Ok(HttpResponse::Ok().json(user))
-    println!("je suis dans get_users de handlers");
-    repository.get_all_users().await;
-    Ok(HttpResponse::Ok().header("Access-Control-Allow-Methods","*").header("Access-Control-Allow-Origin","*").body("ok"))
-}
+//     // Ok(HttpResponse::Ok().json(user))
+//     println!("je suis dans get_users de handlers");
+//     repository.get_all_users().await;
+//     Ok(HttpResponse::Ok().header("Access-Control-Allow-Methods","*").header("Access-Control-Allow-Origin","*").body("ok"))
+// }
 
 pub async fn test (req : HttpRequest) -> impl Responder{
     let request = req;

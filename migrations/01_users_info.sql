@@ -1,7 +1,7 @@
 -- Add migration script here
 create table users_info (
     id uuid not null primary key,
-    full_name varchar null,
+    full_name varchar null unique,
     bio varchar null,
     image varchar null,
     -- email_verified

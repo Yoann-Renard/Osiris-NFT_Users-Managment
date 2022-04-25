@@ -34,7 +34,7 @@ pub struct Userpass {
 }
 #[derive(Debug,Serialize, sqlx::FromRow)]
 pub struct Fullname {
-    full_name:String
+    pub full_name:String
  }
 
 //validate the input fields for new users and update users 

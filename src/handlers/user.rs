@@ -10,7 +10,8 @@ use color_eyre::Result;
 use sqlx::{error::DatabaseError, postgres::PgError};
 use tracing::{debug, instrument};
 use validator::Validate;
-
+use uuid::Uuid;
+use serde::{Deserialize,Serialize};
 
 #[instrument(skip(user,repository,crypto_service))]
 pub async fn create_user(user : Form<NewUser>, repository: UserRepository, crypto_service : Data<CryptoService>) -> AppResponse {
@@ -38,7 +39,7 @@ pub async fn create_user(user : Form<NewUser>, repository: UserRepository, crypt
         let result : Result<User> = repository.create(user.0, crypto_service.as_ref()).await;
 
         match result {
-            Ok(user) => Ok(HttpResponse::Found().header("Location", "http://127.0.0.1:4201/").json(user)),
+            Ok(user) => Ok(HttpResponse::Found().header("Location", "https://127.0.0.1:4201/").json(user)),
             Err(error) => {
                 let pg_error : &PgError = error.root_cause()
                                                .downcast_ref::<PgError>()
@@ -126,8 +127,8 @@ pub async fn test (req : HttpRequest) -> impl Responder{
 #[instrument[skip(repository)]]
 pub async fn suppr_account(user: AuthenticatedUser,repository: UserRepository) -> AppResponse{
 
-    let suppr = repository.db_suppr_account(user.0);
-    Ok(HttpResponse::Found().header("LOCATION" , "http://localhost:4201").body("ok"))
+    let _suppr = repository.db_suppr_account(user.0);
+    Ok(HttpResponse::Found().header("LOCATION" , "https://localhost:4201").body("ok"))
 }
 
 #[instrument[skip(repository)]]
